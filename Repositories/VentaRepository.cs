@@ -14,7 +14,7 @@ namespace TronicShop.Repositories
     {
         public bool Insert(Venta venta, List<DetalleVenta> detalles)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
             using var tx = conn.BeginTransaction();
 
@@ -77,7 +77,7 @@ namespace TronicShop.Repositories
         //public List<Venta> GetAll()
         //{
         //    var lista = new List<Venta>();
-        //    using var conn = Database.GetConnection();
+        //    using var conn = Database.GetConnection()!;
         //    conn.Open();
 
         //    string sql = @"SELECT v.id, v.id_cliente, v.id_usuario, v.total, v.fecha, v.estado,
@@ -110,7 +110,7 @@ namespace TronicShop.Repositories
         public List<DetalleVenta> GetDetalles(int idVenta)
         {
             var lista = new List<DetalleVenta>();
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT d.id, d.id_venta, d.id_producto, d.cantidad, d.precio_unitario, d.total_linea,
@@ -143,7 +143,7 @@ namespace TronicShop.Repositories
         {
             var ventas = new List<Venta>();
 
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"

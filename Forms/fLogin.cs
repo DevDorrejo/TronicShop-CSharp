@@ -13,7 +13,7 @@ namespace TronicShop
             try
             {
                 var configRepo = new ConfiguraciónRepository();
-                byte[] logoBytes = configRepo.GetLogo();
+                byte[]? logoBytes = configRepo.GetLogo();
 
                 if (logoBytes != null && logoBytes.Length > 0)
                 {

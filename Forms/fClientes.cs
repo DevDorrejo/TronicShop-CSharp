@@ -235,8 +235,7 @@ namespace TronicShop.Forms
                 txIdentificación.Text = string.Empty;
             }
         }
-
-        private void txIdentificación_TextChanged(object sender, EventArgs e)
+        private void txIdentificación_TextChanged(object? sender, EventArgs e)
         {
             if (rbCompañía.Checked)
                 Validaciones.FormatearRNC(txIdentificación);
@@ -244,7 +243,7 @@ namespace TronicShop.Forms
                 Validaciones.FormatearCédula(txIdentificación);
         }
 
-        private void txIdentificación_KeyPress(object sender, KeyPressEventArgs e)
+        private void txIdentificación_KeyPress(object? sender, KeyPressEventArgs e)
         {
             Validaciones.SoloNumeros(e);
 

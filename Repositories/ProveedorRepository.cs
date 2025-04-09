@@ -14,7 +14,7 @@ namespace TronicShop.Repositories
         public List<Proveedor> GetAll()
         {
             var lista = new List<Proveedor>();
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, compañía, nombre_contacto, telefono, telefono2, whatsapp, correo, 
@@ -49,7 +49,7 @@ namespace TronicShop.Repositories
 
         public Proveedor? GetByID(int id)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, tipo, compañía, nombre_contacto, telefono, telefono2, whatsapp, correo, 
@@ -85,7 +85,7 @@ namespace TronicShop.Repositories
 
         public bool Insert(Proveedor p)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"INSERT INTO proveedores (
@@ -111,7 +111,7 @@ namespace TronicShop.Repositories
 
         public bool Update(Proveedor p)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"UPDATE proveedores SET
@@ -144,7 +144,7 @@ namespace TronicShop.Repositories
 
         public bool Delete(int id)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = "DELETE FROM proveedores WHERE id = @id";
@@ -156,7 +156,7 @@ namespace TronicShop.Repositories
 
         public Proveedor? GetByCompañía(string compañía)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, compañía, nombre_contacto, telefono, telefono2, whatsapp, correo, 

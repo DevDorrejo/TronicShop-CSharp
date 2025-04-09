@@ -36,6 +36,7 @@ namespace TronicShop.Forms
             txNombre.Clear();
             txUsuario.Clear();
             txContraseña.Clear();
+            txContraseña.PlaceholderText = string.Empty;
             cbRol.SelectedIndex = -1;
             chkEstado.Checked = true;
         }
@@ -60,22 +61,26 @@ namespace TronicShop.Forms
                 TtHelper.Mostrar(txNombre, "Ingrese un nombre válido.");
                 return;
             }
-
             if (!Validaciones.ValidarTexto(usuario, 3))
             {
                 TtHelper.Mostrar(txUsuario, "Usuario inválido.");
                 return;
             }
-
             if (usuarioIdSeleccionado == null && string.IsNullOrWhiteSpace(contraseña))
             {
                 TtHelper.Mostrar(txContraseña, "Debe ingresar una contraseña para el nuevo usuario.");
                 return;
             }
-
             if (cbRol.SelectedIndex == -1)
             {
                 TtHelper.Mostrar(cbRol, "Debe seleccionar un rol.");
+                return;
+            }
+            
+            var existente = _repo.GetByUser(usuario);
+            if (existente != null && existente.Id != usuarioIdSeleccionado)
+            {
+                TtHelper.Mostrar(txUsuario, "Este nombre de usuario ya está en uso.");
                 return;
             }
 
@@ -119,7 +124,14 @@ namespace TronicShop.Forms
                 txNombre.Text = elusuario.Nombre;
                 txUsuario.Text = elusuario.Username;
                 cbRol.SelectedItem = elusuario.Rol;
-                chkEstado.Checked = elusuario.Estado;
+                foreach (var item in cbRol.Items)
+                {
+                    if (item.ToString()!.Equals(elusuario.Rol, StringComparison.OrdinalIgnoreCase))
+                    {
+                        cbRol.SelectedItem = item;
+                        break;
+                    }
+                }
                 txContraseña.Text = ""; // no mostrar clave
                 txContraseña.PlaceholderText = "Dejar en blanco para omitir.";
             }

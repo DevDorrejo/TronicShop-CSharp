@@ -14,7 +14,7 @@ namespace TronicShop.Repositories
         public List<Cliente> GetAll()
         {
             var lista = new List<Cliente>();
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, nombre, telefono, correo, direccion, identificacion, estado, fecha_creado
@@ -43,7 +43,7 @@ namespace TronicShop.Repositories
 
         public Cliente? GetByID(int id)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, nombre, telefono, correo, direccion, identificacion, estado, fecha_creado
@@ -74,7 +74,7 @@ namespace TronicShop.Repositories
 
         public bool Insert(Cliente c)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"INSERT INTO clientes(nombre, telefono, correo, direccion, identificacion, estado)
@@ -93,7 +93,7 @@ namespace TronicShop.Repositories
 
         public bool Update(Cliente c)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"UPDATE clientes
@@ -119,7 +119,7 @@ namespace TronicShop.Repositories
 
         public bool Delete(int id)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = "DELETE FROM clientes WHERE id = @id";
@@ -131,7 +131,7 @@ namespace TronicShop.Repositories
 
         public Cliente? GetByIdentificación(string identificacion)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, nombre, telefono, correo, direccion, identificacion, estado, fecha_creado
@@ -161,7 +161,7 @@ namespace TronicShop.Repositories
         }
         public Cliente? GetByCorreoOIdentificación(string correo, string identificacion)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, nombre, telefono, direccion, correo, identificacion, estado, fecha_creado

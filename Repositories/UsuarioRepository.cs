@@ -18,7 +18,7 @@ namespace TronicShop.Repositories
         public List<Usuario> GetAll()
         {
             var lista = new List<Usuario>();
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, nombre, usuario, clave, rol, estado, fecha_creado FROM usuarios ORDER BY id";
@@ -42,7 +42,7 @@ namespace TronicShop.Repositories
         }
         public Usuario? GetByID(int id)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, nombre, usuario, clave, rol, estado, fecha_creado FROM usuarios WHERE id = @id";
@@ -67,14 +67,14 @@ namespace TronicShop.Repositories
         }
         public bool Insert(Usuario usuario)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"INSERT INTO usuarios(nombre, usuario, clave, rol, estado) VALUES (@nombre, @usuario, @clave, @rol, @estado)";
             using var cmd = new NpgsqlCommand(sql, conn);
 
             cmd.Parameters.AddWithValue("@nombre", usuario.Nombre);
-            cmd.Parameters.AddWithValue("@usuario", usuario.Username);
+            cmd.Parameters.AddWithValue("@usuario", usuario.Username.ToLowerInvariant());
             cmd.Parameters.AddWithValue("@clave", usuario.Contraseña);
             cmd.Parameters.AddWithValue("@rol", usuario.Rol.ToLower());
             cmd.Parameters.AddWithValue("@estado", usuario.Estado);
@@ -83,7 +83,7 @@ namespace TronicShop.Repositories
         }
         public bool Update(Usuario usuario)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"UPDATE usuarios
@@ -96,7 +96,7 @@ namespace TronicShop.Repositories
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@id", usuario.Id);
             cmd.Parameters.AddWithValue("@nombre", usuario.Nombre);
-            cmd.Parameters.AddWithValue("@usuario", usuario.Username);
+            cmd.Parameters.AddWithValue("@usuario", usuario.Username.ToLowerInvariant());
             cmd.Parameters.AddWithValue("@clave", usuario.Contraseña);
             cmd.Parameters.AddWithValue("@rol", usuario.Rol.ToLower());
             cmd.Parameters.AddWithValue("@estado", usuario.Estado);
@@ -105,7 +105,7 @@ namespace TronicShop.Repositories
         }
         public bool Delete(int id)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = "DELETE FROM usuarios WHERE id = @id";
@@ -120,12 +120,12 @@ namespace TronicShop.Repositories
         // ======================== //
         public Usuario? Login(string username, string contraseña)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, nombre, usuario, clave, rol, estado, fecha_creado 
                             FROM usuarios 
-                            WHERE usuario = @usuario";
+                            WHERE LOWER(usuario) = LOWER(@usuario)";
 
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@usuario", username);
@@ -153,10 +153,10 @@ namespace TronicShop.Repositories
         }
         public Usuario? GetByUser(string username)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
-            string sql = "SELECT id, nombre, usuario, clave, rol, estado, fecha_creado FROM usuarios WHERE usuario = @usuario";
+            string sql = "SELECT id, nombre, usuario, clave, rol, estado, fecha_creado FROM usuarios WHERE LOWER(usuario) = LOWER(@usuario)";
             using var cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@usuario", username);
             using var reader = cmd.ExecuteReader();

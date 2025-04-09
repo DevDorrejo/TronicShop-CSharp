@@ -14,7 +14,7 @@ namespace TronicShop.Repositories
         public List<Producto> GetAll()
         {
             var lista = new List<Producto>();
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT p.id, p.codigo_barra, p.nombre, p.descripcion, p.categoria, p.precio, p.stock, p.estado,
@@ -51,7 +51,7 @@ namespace TronicShop.Repositories
 
         public Producto? GetByID(int id)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, codigo_barra, nombre, descripcion, categoria, precio, stock, estado,
@@ -85,7 +85,7 @@ namespace TronicShop.Repositories
 
         public bool Insert(Producto p)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"INSERT INTO productos (codigo_barra, nombre, descripcion, categoria, precio, stock,
@@ -108,7 +108,7 @@ namespace TronicShop.Repositories
 
         public bool Update(Producto p)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"UPDATE productos SET 
@@ -139,7 +139,7 @@ namespace TronicShop.Repositories
 
         public bool Delete(int id)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = "DELETE FROM productos WHERE id = @id";
@@ -151,7 +151,7 @@ namespace TronicShop.Repositories
 
         public Producto? GetByCódigoBarra(string codigo)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, codigo_barra, nombre, descripcion, categoria, precio, stock, estado,
@@ -185,7 +185,7 @@ namespace TronicShop.Repositories
         }
         public void RestaurarStock(int idProducto, int cantidad)
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = "UPDATE productos SET stock = stock + @cantidad WHERE id = @id";

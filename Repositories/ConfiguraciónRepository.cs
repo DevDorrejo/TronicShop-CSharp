@@ -13,7 +13,7 @@ namespace TronicShop.Repositories
     {
         public Configuración? GetAll()
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = "SELECT id, nombre_empresa, rnc, direccion, telefono, correo, impuesto, logo, fecha_creado, fecha_actualizado FROM configuracion LIMIT 1";
@@ -42,7 +42,7 @@ namespace TronicShop.Repositories
 
         public Configuración? GetPrimera()
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = @"SELECT id, nombre_empresa, rnc, direccion, telefono, correo, impuesto, logo, 
@@ -126,7 +126,7 @@ namespace TronicShop.Repositories
         }
         public decimal GetITBIS()
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
 
             string sql = "SELECT impuesto FROM configuracion LIMIT 1";
@@ -139,14 +139,14 @@ namespace TronicShop.Repositories
             return 0; // Retorna 0 si hay error o no está configurado
         }
 
-        public byte[] GetLogo()
+        public byte[]? GetLogo()
         {
-            using var conn = Database.GetConnection();
+            using var conn = Database.GetConnection()!;
             conn.Open();
             string sql = "SELECT logo FROM configuracion LIMIT 1";
             using var cmd = new NpgsqlCommand(sql, conn);
             var result = cmd.ExecuteScalar();
-            return result == DBNull.Value ? null : (byte[])result;
+            return result == DBNull.Value ? null : (byte[]?)result;
         }
     }
 }

@@ -87,7 +87,7 @@ namespace TronicShop.Forms.Reportes
                 return;
             }
 
-            bool? generado = ReporteUtils.GenerarFacturaExcel(venta, venta.Detalles, venta.ClienteNombre, venta.UsuarioNombre);
+            bool? generado = ReporteUtils.GenerarFacturaExcel(venta, venta.Detalles, venta.ClienteNombre!, venta.UsuarioNombre!);
 
             if (generado == true)
             {
