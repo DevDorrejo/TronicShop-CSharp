@@ -34,6 +34,7 @@
             menuConfiguración = new ToolStripMenuItem();
             archivoSeparator1 = new ToolStripSeparator();
             menuCerrarSesión = new ToolStripMenuItem();
+            archivoSeparator2 = new ToolStripSeparator();
             menuSalir = new ToolStripMenuItem();
             clientesToolStripMenuItem = new ToolStripMenuItem();
             proveedoresToolStripMenuItem = new ToolStripMenuItem();
@@ -44,9 +45,10 @@
             ventasToolStripMenuItem1 = new ToolStripMenuItem();
             statusStrip = new StatusStrip();
             lbHora = new ToolStripStatusLabel();
+            statusRelleno = new ToolStripStatusLabel();
             lbRol = new ToolStripStatusLabel();
             lbUsuario = new ToolStripStatusLabel();
-            archivoSeparator2 = new ToolStripSeparator();
+            lbFecha = new ToolStripStatusLabel();
             menuStrip.SuspendLayout();
             statusStrip.SuspendLayout();
             SuspendLayout();
@@ -94,6 +96,11 @@
             menuCerrarSesión.Text = "Cerrar Sesión";
             menuCerrarSesión.Click += menuCerrarSesión_Click;
             // 
+            // archivoSeparator2
+            // 
+            archivoSeparator2.Name = "archivoSeparator2";
+            archivoSeparator2.Size = new Size(177, 6);
+            // 
             // menuSalir
             // 
             menuSalir.Name = "menuSalir";
@@ -139,21 +146,21 @@
             // productosToolStripMenuItem1
             // 
             productosToolStripMenuItem1.Name = "productosToolStripMenuItem1";
-            productosToolStripMenuItem1.Size = new Size(130, 22);
+            productosToolStripMenuItem1.Size = new Size(180, 22);
             productosToolStripMenuItem1.Text = "Productos";
             productosToolStripMenuItem1.Click += reporteProductos_Click;
             // 
             // ventasToolStripMenuItem1
             // 
             ventasToolStripMenuItem1.Name = "ventasToolStripMenuItem1";
-            ventasToolStripMenuItem1.Size = new Size(130, 22);
+            ventasToolStripMenuItem1.Size = new Size(180, 22);
             ventasToolStripMenuItem1.Text = "Ventas";
             ventasToolStripMenuItem1.Click += reporteVentas_Click;
             // 
             // statusStrip
             // 
             statusStrip.Font = new Font("Fira Sans", 9F);
-            statusStrip.Items.AddRange(new ToolStripItem[] { lbHora, lbRol, lbUsuario });
+            statusStrip.Items.AddRange(new ToolStripItem[] { lbFecha, lbHora, statusRelleno, lbRol, lbUsuario });
             statusStrip.Location = new Point(0, 528);
             statusStrip.Name = "statusStrip";
             statusStrip.RightToLeft = RightToLeft.Yes;
@@ -164,25 +171,32 @@
             // lbHora
             // 
             lbHora.Name = "lbHora";
-            lbHora.Size = new Size(34, 17);
-            lbHora.Text = "Hora";
+            lbHora.Overflow = ToolStripItemOverflow.Never;
+            lbHora.Size = new Size(0, 0);
+            // 
+            // statusRelleno
+            // 
+            statusRelleno.Name = "statusRelleno";
+            statusRelleno.Overflow = ToolStripItemOverflow.Never;
+            statusRelleno.Size = new Size(0, 0);
+            statusRelleno.Spring = true;
             // 
             // lbRol
             // 
             lbRol.Name = "lbRol";
-            lbRol.Size = new Size(25, 17);
-            lbRol.Text = "Rol";
+            lbRol.Overflow = ToolStripItemOverflow.Never;
+            lbRol.Size = new Size(0, 0);
             // 
             // lbUsuario
             // 
             lbUsuario.Name = "lbUsuario";
-            lbUsuario.Size = new Size(50, 17);
-            lbUsuario.Text = "Usuario";
+            lbUsuario.Overflow = ToolStripItemOverflow.Never;
+            lbUsuario.Size = new Size(0, 0);
             // 
-            // archivoSeparator2
+            // lbFecha
             // 
-            archivoSeparator2.Name = "archivoSeparator2";
-            archivoSeparator2.Size = new Size(177, 6);
+            lbFecha.Name = "lbFecha";
+            lbFecha.Size = new Size(0, 17);
             // 
             // fMain
             // 
@@ -229,5 +243,7 @@
         private ToolStripMenuItem menuConfiguración;
         private ToolStripMenuItem proveedoresToolStripMenuItem;
         private ToolStripSeparator archivoSeparator2;
+        private ToolStripStatusLabel statusRelleno;
+        private ToolStripStatusLabel lbFecha;
     }
 }

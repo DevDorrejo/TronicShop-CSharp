@@ -1,6 +1,7 @@
 using System.Windows.Forms;
 using TronicShop.Forms;
 using TronicShop.Methods;
+using TronicShop.Models;
 using TronicShop.Repositories;
 
 namespace TronicShop
@@ -8,6 +9,8 @@ namespace TronicShop
     public partial class fLogin : Form
     {
         private readonly UsuarioRepository _repo = new();
+        private fMain _main;
+        public Usuario? Usuario { get; private set; } = null;
         private void LoadLogo()
         {
             try
@@ -35,11 +38,19 @@ namespace TronicShop
             }
         }
 
-        public fLogin()
+        public fLogin(fMain main)
         {
             InitializeComponent();
             AcceptButton = btnLogin;
+            _main = main;
             LoadLogo();
+
+            if (MdiParent != null)
+            {
+                int x = (MdiParent.ClientSize.Width - Width) / 2;
+                int y = (MdiParent.ClientSize.Height - Height) / 2;
+                Location = new Point(x, y);
+            }
         }
         private void fLogin_Load(object sender, EventArgs e)
         {
@@ -62,18 +73,18 @@ namespace TronicShop
                     TtHelper.Mostrar(txtContraseña, "Por favor ingrese contraseña.");
                     return;
                 }
-                var elusuario = _repo.Login(usuario, contraseña);
+                Usuario elusuario = _repo.Login(usuario, contraseña);
 
-                if (elusuario == null)
+                if (elusuario != null)
                 {
-                    TtHelper.Mostrar(txtUsuario,"Credenciales incorrectas.");
-                    return;
+                    Usuario = elusuario;
+                    _main.login(Usuario);
+                    Close();
                 }
-
-                // Ir al formulario principal
-                var main = new fMain(elusuario);
-                main.Show();
-                this.Hide();
+                else
+                {
+                    MessageBox.Show("Credenciales inválidas.");
+                }
             }
             catch (Npgsql.NpgsqlException ex) when (ex.InnerException is TimeoutException || ex.Message.Contains("timeout"))
             {

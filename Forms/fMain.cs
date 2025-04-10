@@ -14,7 +14,9 @@ namespace TronicShop.Forms
 {
     public partial class fMain : Form
     {
-        private readonly Usuario _usuario;
+        private Usuario? _usuario;
+        private Timer _time;
+
 
         // ========================== //
         //    Sección de funciones    //
@@ -30,6 +32,36 @@ namespace TronicShop.Forms
                 menuReportes.Visible = false;
                 archivoSeparator1.Visible = false;
             }
+        }
+        public void login(Usuario usuario)
+        {
+            _usuario = usuario;
+            AplicarPermisos();
+            menuStrip.Enabled = true;
+            lbUsuario.Text = $"Usuario: {_usuario.Nombre}";
+            lbRol.Text = $"Rol: {_usuario.Rol}";
+
+            if (_time != null)
+            {
+                _time.Stop();
+                _time.Dispose();
+            }
+
+            _time = new Timer();
+            _time.Interval = 1000;
+            _time.Tick += (s, e) =>
+            {
+                lbHora.Text = $"{DateTime.Now:hh:mm:ss tt}";
+                lbFecha.Text = $"{DateTime.Now:dd/MM/yyyy}";
+            };
+            _time.Start();
+        }
+        private void mostrarLogin()
+        {
+            var loginForm = new fLogin(this); // Pasamos referencia a fMain
+            loginForm.MdiParent = this;
+            loginForm.ControlBox = false;
+            loginForm.Show();
         }
 
         // Versión mejorada del método AbrirUnicoFormulario
@@ -47,28 +79,16 @@ namespace TronicShop.Forms
             form.Dock = DockStyle.Fill;
             form.Show();
         }
-
         // Versión para formularios con constructor sin parámetros
         private void AbrirUnicoFormulario<T>() where T : Form, new()
         {
             AbrirUnicoFormulario<T>(() => new T());
         }
-
-        public fMain(Usuario usuario)
+        public fMain()
         {
             InitializeComponent();
-            _usuario = usuario;
-            AplicarPermisos();
-
-            lbUsuario.Text = $"Usuario: {_usuario.Nombre}";
-            lbRol.Text = $"Rol: {_usuario.Rol}";
-            lbHora.Text = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
-
-            var tiempo = new Timer();
-            tiempo.Interval = 1000;
-            tiempo.Tick += (s, e) => lbHora.Text = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
-            tiempo.Start();
-
+            menuStrip.Enabled = false;
+            mostrarLogin();
         }
         private void fMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -76,9 +96,30 @@ namespace TronicShop.Forms
         }
         private void menuCerrarSesión_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            var login = new fLogin();
-            login.Show();
+            // Cerrar formularios hijos
+            foreach (Form child in this.MdiChildren)
+            {
+                child.Close();
+            }
+
+            if (_time != null)
+            {
+                _time.Stop();
+                _time.Dispose();
+                _time = null;
+            }
+
+            // Reiniciar interfaz
+            _usuario = null;
+            lbUsuario.Text = "";
+            lbRol.Text = "";
+            lbHora.Text = "";
+            lbFecha.Text = "";
+
+            menuStrip.Enabled = false;
+
+            // Mostrar login embebido de nuevo
+            mostrarLogin();
         }
         private void menuSalir_Click(object sender, EventArgs e)
         {
